@@ -77,11 +77,11 @@ app.get("/plants",(req,res)=>{
 
 app.get("/plant/:id" ,(req,res)=>{
     const {id}=req.params
-     
+    const  plant = plants.find((p)=>p.id==id) 
     res.json({
-        success:true,
-        data:id,
-        message:"plant fetched successfully."
+        success:plant?true:false,
+        data:plant,
+        message:plant?"plant fetched successfully.":"null"
     })
 })
 const PORT=5000
