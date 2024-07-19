@@ -121,6 +121,32 @@ app.put("/plant/:id",(req,res)=>{
             message:"plant updated succesfully"
         })}
 })
+
+app.delete("/plant/:id", (req, res) => {
+    const { id } = req.params;
+    let index = -1;
+
+    plants.forEach((plant, i) => {
+        if (plant.id == id) {
+            index = i; 
+        }
+    });
+
+    if (index === -1) {
+        return res.json({
+            success: false,
+            message: `Plant not found at id ${id}`
+        });
+    }
+
+    plants.splice(index, 1); 
+    res.json({
+        success: true,
+        message: "Plant deleted.",
+        data: null
+    });
+});
+
 const PORT=5000
 
 app.listen(PORT , ()=>{
