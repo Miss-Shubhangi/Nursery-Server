@@ -84,6 +84,43 @@ app.get("/plant/:id" ,(req,res)=>{
         message:plant?"plant fetched successfully.":"null"
     })
 })
+
+app.put("/plant/:id",(req,res)=>{
+   const {name,
+        category,
+        image,
+        price,
+        description}=req.body
+
+        const {id}=req.params
+        let index=-1
+        plants.forEach((plantObj ,i)=>{
+            if(plantObj.id==id){
+                index=i
+            }
+        })
+        const newObj={
+            id,
+            name,
+            category,
+            image,
+            price,
+            description
+        }
+       if(index==-1){
+        return  res.json({
+            success:false,
+            message :"plant not found",
+            data:null
+        })
+       } else{
+        plants[index]=newObj
+        res.json({
+            success:true,
+            data:null,
+            message:"plant updated succesfully"
+        })}
+})
 const PORT=5000
 
 app.listen(PORT , ()=>{
