@@ -10,10 +10,22 @@ import {
     deletePlant
 } from "./controllers/plant.js"
 import { pageNotFound } from "./controllers/another.js"
+import mongoose from "mongoose"
 
 dotenv.config()
 const app = express()
 app.use(express.json())
+
+const dbConnection = async ()=>{
+    const conn= await mongoose.connect(process.env.MONGO_URL)
+    if (conn){
+        console.log(`Database Connected 🔗🎁`)
+    }
+    else{
+        console.log("Database Not Connected ⛓️‍💥❌")
+    }
+}
+dbConnection()
 
 const plants =[{
     "id":1,
