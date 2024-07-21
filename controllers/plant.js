@@ -1,26 +1,26 @@
-const postPlant= (req, res)=>{
+import Plant from "./../models/Plant.js";
+
+const postPlant=async (req, res)=>{
     const {name,
         category,
         image,
         price,
         description}=req.body
 
-        const randomId = Math.round(Math.random()*1000)
+       const newPlant=new Plant({
+        name:name,
+        category:category,
+        image:image,
+        price:price,
+        description:description
+       })
 
-        const newPlant ={
-            id:randomId,
-            name:name,
-            category:category,
-            image:image,
-            price:price,
-            description:description
-        }
-        plants.push(newPlant)
+       const savedPlant = await newPlant.save();
 
         res.json(
             {
                 success:true,
-                data:newPlant,
+                data:savedPlant,
                 message:"New plant added ."
             }
         )
