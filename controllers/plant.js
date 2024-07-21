@@ -38,17 +38,19 @@ const getPlant=async (req,res)=>{
     )
 }
 
-const getPlantId=(req,res)=>{
+const getPlantId=async (req,res)=>{
     const {id}=req.params
-    const  plant = plants.find((p)=>p.id==id) 
+     const plant = await Plant.findOne({
+        _id : id
+     })
     res.json({
         success:plant?true:false,
-        data:plant,
+        data:plant || null,
         message:plant?"plant fetched successfully.":"null"
     })
 }
 
-const putPlantId=(req,res)=>{
+const putPlantId=async (req,res)=>{
     const {name,
          category,
          image,
@@ -56,58 +58,31 @@ const putPlantId=(req,res)=>{
          description}=req.body
  
          const {id}=req.params
-         let index=-1
-         plants.forEach((plantObj ,i)=>{
-             if(plantObj.id==id){
-                 index=i
-             }
-         })
-         const newObj={
-             id,
-             name,
-             category,
-             image,
-             price,
-             description
-         }
-        if(index==-1){
-         return  res.json({
-             success:false,
-             message :"plant not found",
-             data:null
-         })
-        } else{
-         plants[index]=newObj
+         const updateResult = await Plant.updateOne({_id : id},{$set:{
+            name:name,
+            category:category,
+            image:image,
+            price:price,
+            description:description
+         }})
          res.json({
-             success:true,
-             data:null,
-             message:"plant updated succesfully"
-         })}
+            success:true,
+            message:"plant updated successfully.",
+            data:updateResult
+         })
+      
  }
 
- const deletePlant= (req, res) => {
+ const deletePlant= async(req, res) => {
     const { id } = req.params;
-    let index = -1;
-
-    plants.forEach((plant, i) => {
-        if (plant.id == id) {
-            index = i; 
-        }
-    });
-
-    if (index === -1) {
-        return res.json({
-            success: false,
-            message: `Plant not found at id ${id}`
-        });
-    }
-
-    plants.splice(index, 1); 
+    await Plant.deleteOne({
+        _id : id
+    })
     res.json({
-        success: true,
-        message: "Plant deleted.",
-        data: null
-    });
+        success:true,
+        message:"Plant deleted successfully.",
+        data:null
+    })
 }
 
 
