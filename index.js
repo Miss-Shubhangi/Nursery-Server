@@ -1,6 +1,7 @@
 import express from "express"
 import dotenv from "dotenv"
 import mongoose from "mongoose"
+import cors from "cors"
 import { getHealth } from "./controllers/health.js"
 import {
     postPlant,
@@ -14,6 +15,7 @@ import { pageNotFound } from "./controllers/another.js"
 
 dotenv.config()
 const app = express()
+app.use(cors())
 app.use(express.json())
 
 const dbConnection = async ()=>{
@@ -26,8 +28,6 @@ const dbConnection = async ()=>{
     }
 }
 dbConnection()
-
-const plants =[]
 
 app.get("/health", getHealth)
 
