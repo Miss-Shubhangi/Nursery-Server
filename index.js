@@ -42,7 +42,7 @@ app.put("/plant/:id",putPlantId)
 app.delete("/plant/:id", deletePlant);
 app.use("*", pageNotFound)
 
-const PORT=process.env.PORT
+const PORT= process.env.PORT
 
 app.listen(PORT , ()=>{
     console.log(`Server is running on Port ${PORT}`)

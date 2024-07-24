@@ -7,6 +7,8 @@ const PlantSchema = new Schema(
     image:String,
     price:Number,
     description:String
+},{
+    timestamps:true
 })
 
 const Plant = model("Plant" ,PlantSchema)
